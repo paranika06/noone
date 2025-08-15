@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Rock Paper Scissors</title>
+<style>
+  body {
+    font-family: monospace, monospace;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    color: #333;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    font-size: 3rem;
+    background: linear-gradient(90deg, #4e54c8, #8f94fb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    user-select: none;
+  }
+  p {
+    font-size: 1.1rem;
+    margin: 10px 0 20px;
+    user-select: none;
+  }
+  button {
+    font-size: 16px;
+    margin: 5px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #6c63ff;
+    color: white;
+    box-shadow: 0 4px 8px rgba(108, 99, 255, 0.3);
+    user-select: none;
+  }
+  button:hover {
+    background-color: #574fd6;
+    box-shadow: 0 6px 12px rgba(87, 79, 214, 0.5);
+  }
+  button:active {
+    transform: scale(0.95);
+  }
+
+  pre {
+    background: #e7eaf6;
+    padding: 20px 28px;
+    border-radius: 16px;
+    border: 1.5px solid #c1c7e3;
+    box-shadow: 0 8px 15px rgba(108, 99, 255, 0.15);
+    white-space: pre-wrap;
+    max-width: 340px;
+    margin: 10px auto;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #3b3f72;
+    user-select: text;
+    transition: box-shadow 0.3s ease;
+  }
+
+  #result {
+    margin-top: 30px;
+    text-align: center;
+    max-width: 440px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 24px 30px;
+    border-radius: 18px;
+    box-shadow: 0 12px 24px rgba(108, 99, 255, 0.25);
+    transition: background-color 0.4s ease;
+  }
+
+  /* Glowing animation for the result text */
+  @keyframes glowText {
+    0%, 100% {
+      text-shadow:
+        0 0 8px #6c63ff,
+        0 0 20px #6c63ff,
+        0 0 30px #8f94fb,
+        0 0 40px #8f94fb;
+      color: #4e54c8;
+    }
+    50% {
+      text-shadow:
+        0 0 16px #574fd6,
+        0 0 32px #574fd6,
+        0 0 48px #7a7fdb,
+        0 0 64px #7a7fdb;
+      color: #3b3f72;
+    }
+  }
+
+  #result h3 {
+    font-weight: 700;
+    margin-top: 20px;
+    user-select: none;
+    font-size: 1.8rem;
+    animation: glowText 3s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <p>What do you choose? Click a button below:</p>
+  <div>
+    <button onclick="play(0)">Rock</button>
+    <button onclick="play(1)">Paper</button>
+    <button onclick="play(2)">Scissors</button>
+  </div>
+
+  <div id="result"></div>
+
+  <script>
+    const rock = `
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+`;
+
+    const paper = `
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+`;
+
+    const scissors = `
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+`;
+
+    function play(value) {
+      const asciiArts = [rock, paper, scissors];
+      const choices = ['rock', 'paper', 'scissors'];
+      if (value < 0 || value > 2) {
+        document.getElementById('result').innerHTML = "<p>Invalid input... you lost!</p>";
+        return;
+      }
+
+      let userChoiceArt = asciiArts[value];
+      let userChoiceName = choices[value];
+
+      const random_choice = Math.floor(Math.random() * 3);
+      let compChoiceArt = asciiArts[random_choice];
+      let compChoiceName = choices[random_choice];
+
+      let resultText = "";
+
+      if (value === random_choice) {
+        resultText = "It's a draw match!";
+      } else if (
+        (value === 0 && random_choice === 2) ||
+        (value === 2 && random_choice === 1) ||
+        (value === 1 && random_choice === 0)
+      ) {
+        resultText = "You won!";
+      } else {
+        resultText = "Computer won!";
+      }
+
+      document.getElementById('result').innerHTML = `
+        <p>You chose <b>${userChoiceName}</b>:</p>
+        <pre>${userChoiceArt}</pre>
+        <p>Computer chose <b>${compChoiceName}</b>:</p>
+        <pre>${compChoiceArt}</pre>
+        <h3>${resultText}</h3>
+      `;
+    }
+  </script>
+</body>
+</html>
