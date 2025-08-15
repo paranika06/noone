@@ -1,2 +1,2 @@
 # noone
-its my first werid one ..
+the first one are always weird ..
